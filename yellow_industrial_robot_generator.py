@@ -40,8 +40,10 @@ def cyl(name,loc,radius,depth,mat,rot=(0,0,0)):
 
 bpy.ops.object.empty_add(type="PLAIN_AXES",location=(0,0,3.5))
 root=bpy.context.object; root.name="ROBOT_ROOT"
+bpy.context.view_layer.update()
 
-def P(o): o.parent=root
+# keep each part at its modeled world position when parenting to the offset root
+def P(o): o.parent=root; o.matrix_parent_inverse=root.matrix_world.inverted()
 
 # torso
 for n,l,s,m,b in [
